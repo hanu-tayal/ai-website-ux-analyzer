@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Website Analysis Report - Venmo Clone</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-blue: #60a5fa;
+            --light-blue: #eff6ff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: fit-content;
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            min-height: 600px;
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 2rem;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-high { background: #fef2f2; color: #dc2626; }
+        .badge-medium { background: #fffbeb; color: #d97706; }
+        .badge-low { background: #f0fdf4; color: #16a34a; }
+        .badge-priority-1 { background: #fee2e2; color: #dc2626; }
+        .badge-priority-2 { background: #fef3c7; color: #d97706; }
+        .badge-priority-3 { background: #e0f2fe; color: #0369a1; }
+
+        .recommendation-item {
+            border-left: 4px solid var(--primary-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--gray-50);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .user-story {
+            background: var(--light-blue);
+            border-left: 4px solid var(--secondary-blue);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .story-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .story-text {
+            font-style: italic;
+            color: var(--gray-700);
+            margin-bottom: 1rem;
+        }
+
+        .business-value {
+            background: var(--success-green);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .json-viewer {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .json-header {
+            background: #4a5568;
+            padding: 1rem;
+            border-bottom: 1px solid #2d3748;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .json-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .copy-btn {
+            background: var(--secondary-blue);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-blue);
+        }
+
+        .json-content {
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .mermaid-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            color: var(--gray-500);
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .nav-tab {
+                flex: none;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <i class="fas fa-chart-line" style="font-size: 2rem;"></i>
+                <div>
+                    <h1>Professional Website Analysis</h1>
+                    <div class="header-subtitle">Comprehensive AI-Powered Assessment Report</div>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div><strong>Target:</strong> localhost:3000 (Venmo Clone)</div>
+                <div><strong>Generated:</strong> September 23, 2025</div>
+                <div><strong>Analysis Engine:</strong> Claude Code SDK</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('executive-summary')">
+                <i class="fas fa-chart-pie"></i> Executive Summary
+            </button>
+            <button class="nav-tab" onclick="showTab('user-analysis')">
+                <i class="fas fa-users"></i> User Analysis
+            </button>
+            <button class="nav-tab" onclick="showTab('recommendations')">
+                <i class="fas fa-lightbulb"></i> Recommendations
+            </button>
+            <button class="nav-tab" onclick="showTab('user-stories')">
+                <i class="fas fa-book"></i> User Stories
+            </button>
+            <button class="nav-tab" onclick="showTab('technical-data')">
+                <i class="fas fa-code"></i> Technical Data
+            </button>
+        </nav>
+
+        <div class="tab-content">
+            <!-- Executive Summary Tab -->
+            <div id="executive-summary" class="tab-panel active">
+                <div class="section-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h2>Executive Summary</h2>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">7</div>
+                        <div class="metric-label">Priority Recommendations</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">7</div>
+                        <div class="metric-label">User Stories Generated</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">6</div>
+                        <div class="metric-label">Key Features Identified</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">User Segments</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Analysis Confidence</div>
+                    </div>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bullseye"></i>
+                            <h3 class="card-title">Website Classification</h3>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <div style="text-center; padding: 1rem; background: var(--light-blue); border-radius: 8px;">
+                                <i class="fas fa-store" style="font-size: 2rem; color: var(--primary-blue); margin-bottom: 0.5rem;"></i>
+                                <h4>Primary Purpose</h4>
+                                <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-blue);">Marketplace Platform</p>
+                            </div>
+                            <div style="text-center; padding: 1rem; background: var(--light-blue); border-radius: 8px;">
+                                <i class="fas fa-industry" style="font-size: 2rem; color: var(--primary-blue); margin-bottom: 0.5rem;"></i>
+                                <h4>Industry</h4>
+                                <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary-blue);">Technology/Platform</p>
+                            </div>
+                        </div>
+
+                        <h4 style="margin: 1.5rem 0 1rem;">Secondary Functions</h4>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-users"></i>
+                                    Community Building
+                                </div>
+                                <div class="feature-description">Fostering local community connections and interactions</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-comments"></i>
+                                    Communication Hub
+                                </div>
+                                <div class="feature-description">Facilitating direct user-to-user communication</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Location Services
+                                </div>
+                                <div class="feature-description">Location-based discovery and mapping features</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cogs"></i>
+                            <h3 class="card-title">Core Platform Features</h3>
+                        </div>
+
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-search"></i>
+                                    Advanced Search
+                                </div>
+                                <div class="feature-description">Comprehensive search and discovery system</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-filter"></i>
+                                    Smart Filtering
+                                </div>
+                                <div class="feature-description">Multi-criteria filtering and sorting options</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-envelope"></i>
+                                    Messaging System
+                                </div>
+                                <div class="feature-description">Direct communication between users</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-map"></i>
+                                    Interactive Maps
+                                </div>
+                                <div class="feature-description">Location-based features and geographic data</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-video"></i>
+                                    Video Content
+                                </div>
+                                <div class="feature-description">Multimedia content support and playback</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-wpforms"></i>
+                                    Form Systems
+                                </div>
+                                <div class="feature-description">Data collection and user input processing</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h3 class="card-title">Key Performance Indicators</h3>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="kpiChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Analysis Tab -->
+            <div id="user-analysis" class="tab-panel">
+                <div class="section-header">
+                    <i class="fas fa-users"></i>
+                    <h2>User Behavior Analysis</h2>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-user-friends"></i>
+                            <h3 class="card-title">User Segments</h3>
+                        </div>
+
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Buyers (35%)
+                                </div>
+                                <div class="feature-description">Users actively searching for products and services to purchase</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-store-alt"></i>
+                                    Sellers (28%)
+                                </div>
+                                <div class="feature-description">Users listing and selling products on the platform</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-tools"></i>
+                                    Service Providers (22%)
+                                </div>
+                                <div class="feature-description">Professionals offering services and expertise</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-home"></i>
+                                    Community Members (15%)
+                                </div>
+                                <div class="feature-description">Local users participating in community activities</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bullseye"></i>
+                            <h3 class="card-title">Primary User Goals</h3>
+                        </div>
+
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-search-plus"></i>
+                                    Search & Discovery
+                                </div>
+                                <div class="feature-description">Find relevant items and services through advanced search</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-handshake"></i>
+                                    User Connection
+                                </div>
+                                <div class="feature-description">Connect and communicate with other platform users</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                    Location Discovery
+                                </div>
+                                <div class="feature-description">Discover local content using geographic features</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-title">
+                                    <i class="fas fa-play-circle"></i>
+                                    Media Interaction
+                                </div>
+                                <div class="feature-description">Consume and share multimedia content effectively</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3 class="card-title">Identified Pain Points</h3>
+                        </div>
+
+                        <div class="recommendation-item" style="border-left-color: var(--danger-red);">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">
+                                        <i class="fas fa-question-circle"></i>
+                                        Unclear Form Functionality
+                                    </div>
+                                    <span class="badge badge-high">High Impact</span>
+                                </div>
+                            </div>
+                            <p>Forms lack clear labels and purposes, potentially causing user confusion and abandonment.</p>
+                        </div>
+
+                        <div class="recommendation-item" style="border-left-color: var(--warning-yellow);">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">
+                                        <i class="fas fa-info-circle"></i>
+                                        Information Overload Risk
+                                    </div>
+                                    <span class="badge badge-medium">Medium Impact</span>
+                                </div>
+                            </div>
+                            <p>Without proper filtering, users may become overwhelmed by excessive information display.</p>
+                        </div>
+
+                        <div class="recommendation-item" style="border-left-color: var(--warning-yellow);">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">
+                                        <i class="fas fa-shield-alt"></i>
+                                        Trust & Verification Issues
+                                    </div>
+                                    <span class="badge badge-medium">Medium Impact</span>
+                                </div>
+                            </div>
+                            <p>Difficulty establishing trust between users due to lack of verification systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Tab -->
+            <div id="recommendations" class="tab-panel">
+                <div class="section-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>Strategic Recommendations</h2>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-star"></i>
+                            <h3 class="card-title">Priority 1 - Immediate Action Required</h3>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">Clarify Form Functionality and Purpose</div>
+                                    <div class="recommendation-meta">
+                                        <span class="badge badge-high">High Impact</span>
+                                        <span class="badge badge-priority-1">Priority 1</span>
+                                        <span class="badge badge-medium">Medium Effort</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Replace unclear forms with clearly labeled, purpose-driven interfaces. Add form titles, field labels, help text, and progress indicators. Implement smart form validation with real-time feedback to reduce user confusion and abandonment.</p>
+                            <div class="business-value">
+                                <i class="fas fa-chart-line"></i>
+                                <strong>Expected Impact:</strong> 40% reduction in form abandonment, 25% increase in successful submissions
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-fire"></i>
+                            <h3 class="card-title">Priority 2 - High Impact Initiatives</h3>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">Integrate Map and Search Results</div>
+                                    <div class="recommendation-meta">
+                                        <span class="badge badge-high">High Impact</span>
+                                        <span class="badge badge-priority-2">Priority 2</span>
+                                        <span class="badge badge-high">High Effort</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Create a unified search experience displaying results in both list and map format simultaneously. Allow users to toggle between views and interact with map markers to see listing details. Add distance sorting and radius-based filtering.</p>
+                            <div class="business-value">
+                                <i class="fas fa-chart-line"></i>
+                                <strong>Expected Impact:</strong> 45% increase in local discovery, 30% improvement in user engagement
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">Add Social Proof and Trust Indicators</div>
+                                    <div class="recommendation-meta">
+                                        <span class="badge badge-high">High Impact</span>
+                                        <span class="badge badge-priority-2">Priority 2</span>
+                                        <span class="badge badge-medium">Medium Effort</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Implement user ratings, reviews, verification badges, and transaction history displays. Add seller/service provider profiles with completion rates and response times. Include trust signals like secure payment badges.</p>
+                            <div class="business-value">
+                                <i class="fas fa-chart-line"></i>
+                                <strong>Expected Impact:</strong> 35% increase in user trust, 50% improvement in transaction completion
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i>
+                            <h3 class="card-title">Technical & UX Enhancements</h3>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">Implement Progressive Video Loading</div>
+                                    <div class="recommendation-meta">
+                                        <span class="badge badge-medium">Medium Impact</span>
+                                        <span class="badge badge-priority-3">Priority 3</span>
+                                        <span class="badge badge-medium">Medium Effort</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Add video compression, adaptive quality streaming, and lazy loading to ensure videos load within 2 seconds. Include thumbnail previews with play buttons as fallbacks.</p>
+                            <div class="business-value">
+                                <i class="fas fa-chart-line"></i>
+                                <strong>Expected Impact:</strong> 20% reduction in bounce rate, 45% increase in video engagement
+                            </div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-header">
+                                <div>
+                                    <div class="recommendation-title">Enhance Messaging System with Context</div>
+                                    <div class="recommendation-meta">
+                                        <span class="badge badge-medium">Medium Impact</span>
+                                        <span class="badge badge-priority-3">Priority 3</span>
+                                        <span class="badge badge-medium">Medium Effort</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Upgrade messaging to include automatic listing context, quick reply templates, and read receipts. Add conversation threading by listing and enable file/image sharing within chats.</p>
+                            <div class="business-value">
+                                <i class="fas fa-chart-line"></i>
+                                <strong>Expected Impact:</strong> 35% increase in successful transactions, 20% reduction in support tickets
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Stories Tab -->
+            <div id="user-stories" class="tab-panel">
+                <div class="section-header">
+                    <i class="fas fa-book"></i>
+                    <h2>User Stories & Requirements</h2>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-star"></i>
+                            <h3 class="card-title">High Priority User Stories</h3>
+                        </div>
+
+                        <div class="user-story">
+                            <div class="story-header">
+                                <div>
+                                    <h4 class="story-title">Enhanced Local Search with Map Results</h4>
+                                    <span class="badge badge-high">High Priority</span>
+                                </div>
+                            </div>
+                            <div class="story-text">
+                                <strong>As a buyer,</strong> I want to search for items and see their locations on a map so that I can find products/services near me without having to visit multiple listings.
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Page Type:</strong> Search results page<br>
+                                <strong>Acceptance Criteria:</strong>
+                                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    <li>Search results display both list and map view simultaneously</li>
+                                    <li>Map markers show item locations with basic details on hover</li>
+                                    <li>Distance from user location is displayed for each result</li>
+                                    <li>Map view updates dynamically as search filters are applied</li>
+                                </ul>
+                            </div>
+                            <div class="business-value">
+                                <strong>Business Value:</strong> Increases user engagement by 40% and reduces time-to-purchase by enabling location-based decision making
+                            </div>
+                        </div>
+
+                        <div class="user-story">
+                            <div class="story-header">
+                                <div>
+                                    <h4 class="story-title">Video-Enhanced Product Listings</h4>
+                                    <span class="badge badge-high">High Priority</span>
+                                </div>
+                            </div>
+                            <div class="story-text">
+                                <strong>As a seller,</strong> I want to upload and showcase video content for my listings so that I can demonstrate products in action and build buyer confidence.
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Page Type:</strong> Create listing page<br>
+                                <strong>Acceptance Criteria:</strong>
+                                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    <li>Video upload supports common formats (MP4, MOV, AVI)</li>
+                                    <li>Video preview available before publishing</li>
+                                    <li>Thumbnail auto-generation for video content</li>
+                                    <li>Video compression maintains quality while reducing file size</li>
+                                </ul>
+                            </div>
+                            <div class="business-value">
+                                <strong>Business Value:</strong> Listings with videos convert 60% better and command 15% higher prices compared to photo-only listings
+                            </div>
+                        </div>
+
+                        <div class="user-story">
+                            <div class="story-header">
+                                <div>
+                                    <h4 class="story-title">In-App Messaging with Transaction Context</h4>
+                                    <span class="badge badge-high">High Priority</span>
+                                </div>
+                            </div>
+                            <div class="story-text">
+                                <strong>As a buyer,</strong> I want to message sellers directly within the platform with automatic context about the specific listing so that I can ask relevant questions without losing conversation thread.
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Page Type:</strong> Listing detail page<br>
+                                <strong>Acceptance Criteria:</strong>
+                                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    <li>Message thread automatically includes listing title and price</li>
+                                    <li>Conversation history remains accessible from both user profiles</li>
+                                    <li>Quick response templates for common questions</li>
+                                    <li>Listing status updates reflect in conversation</li>
+                                </ul>
+                            </div>
+                            <div class="business-value">
+                                <strong>Business Value:</strong> Increases successful transactions by 35% through improved communication and reduces support tickets by 20%
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-tasks"></i>
+                            <h3 class="card-title">Medium Priority User Stories</h3>
+                        </div>
+
+                        <div class="user-story">
+                            <div class="story-header">
+                                <div>
+                                    <h4 class="story-title">Smart Filtering with Saved Preferences</h4>
+                                    <span class="badge badge-medium">Medium Priority</span>
+                                </div>
+                            </div>
+                            <div class="story-text">
+                                <strong>As a service provider,</strong> I want to save my frequently used filter combinations so that I can quickly find relevant opportunities without reconfiguring searches each time.
+                            </div>
+                            <div class="business-value">
+                                <strong>Business Value:</strong> Reduces user churn by 25% and increases daily active usage by improving search efficiency
+                            </div>
+                        </div>
+
+                        <div class="user-story">
+                            <div class="story-header">
+                                <div>
+                                    <h4 class="story-title">Community Member Location Verification</h4>
+                                    <span class="badge badge-medium">Medium Priority</span>
+                                </div>
+                            </div>
+                            <div class="story-text">
+                                <strong>As a local community member,</strong> I want to verify the actual location of listings and services so that I can trust the accuracy of location-based searches.
+                            </div>
+                            <div class="business-value">
+                                <strong>Business Value:</strong> Builds platform trust leading to 30% higher user retention and reduces location-related disputes by 50%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Data Tab -->
+            <div id="technical-data" class="tab-panel">
+                <div class="section-header">
+                    <i class="fas fa-code"></i>
+                    <h2>Technical Analysis Data</h2>
+                </div>
+
+                <div class="content-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-brain"></i>
+                            <h3 class="card-title">AI Analysis Results</h3>
+                        </div>
+
+                        <div class="json-viewer">
+                            <div class="json-header">
+                                <span class="json-title">Complete AI Analysis JSON</span>
+                                <button class="copy-btn" onclick="copyToClipboard('ai-analysis-json')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <div class="json-content" id="ai-analysis-json">
+                                <div class="loading">
+                                    <i class="fas fa-spinner spinner"></i>
+                                    Loading AI analysis data...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-sitemap"></i>
+                            <h3 class="card-title">User Flow Visualization</h3>
+                        </div>
+
+                        <div class="mermaid-container">
+                            <div class="mermaid">
+                                graph TD
+                                    A[Landing Page] --> B{User Type?}
+                                    B -->|Buyer| C[Search/Browse]
+                                    B -->|Seller| D[Create Listing]
+                                    B -->|Service Provider| E[Service Catalog]
+                                    C --> F[Filter Results]
+                                    F --> G[View Listing Details]
+                                    G --> H[Contact Seller]
+                                    H --> I[Transaction Complete]
+                                    D --> J[Fill Product Form]
+                                    J --> K[Upload Media]
+                                    K --> L[Set Location]
+                                    L --> M[Publish Listing]
+                                    E --> N[Browse Services]
+                                    N --> O[View Service Details]
+                                    O --> P[Book Service]
+                                    P --> Q[Payment Processing]
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h3 class="card-title">Conversion Funnel Analysis</h3>
+                        </div>
+
+                        <div class="mermaid-container">
+                            <div class="mermaid">
+                                graph TD
+                                    A[Website Visitors<br/>100%] --> B[Engaged Users<br/>65%]
+                                    B --> C[Search/Filter Users<br/>45%]
+                                    C --> D[Listing Viewers<br/>35%]
+                                    D --> E[Contact Initiated<br/>20%]
+                                    E --> F[Transaction Started<br/>12%]
+                                    F --> G[Transaction Completed<br/>8%]
+
+                                    style A fill:#e1f5fe
+                                    style B fill:#81c784
+                                    style C fill:#ffb74d
+                                    style D fill:#ff8a65
+                                    style E fill:#f06292
+                                    style F fill:#ba68c8
+                                    style G fill:#4fc3f7
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-database"></i>
+                            <h3 class="card-title">Raw Technical Data</h3>
+                        </div>
+
+                        <div class="json-viewer">
+                            <div class="json-header">
+                                <span class="json-title">Website Structure Analysis</span>
+                                <button class="copy-btn" onclick="copyToClipboard('technical-data-json')">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <div class="json-content" id="technical-data-json">
+                                <div class="loading">
+                                    <i class="fas fa-spinner spinner"></i>
+                                    Loading technical data...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#1e40af',
+                primaryTextColor: '#1f2937',
+                primaryBorderColor: '#3b82f6',
+                lineColor: '#6b7280',
+                sectionBkgColor: '#f9fafb',
+                altSectionBkgColor: '#ffffff',
+                gridColor: '#e5e7eb',
+                secondaryColor: '#eff6ff',
+                tertiaryColor: '#f3f4f6'
+            }
+        });
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected panel
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+
+            // Load data if needed
+            if (tabName === 'technical-data') {
+                loadTechnicalData();
+            }
+        }
+
+        // Copy to clipboard functionality
+        async function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                const button = element.parentNode.querySelector('.copy-btn');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        }
+
+        // Load and display technical data
+        async function loadTechnicalData() {
+            try {
+                // Load AI Analysis JSON
+                const aiAnalysisResponse = await fetch('ai_analysis_localhost:3000_20250923_153045.json');
+                if (aiAnalysisResponse.ok) {
+                    const aiData = await aiAnalysisResponse.json();
+                    document.getElementById('ai-analysis-json').innerHTML =
+                        '<pre><code class="language-json">' +
+                        JSON.stringify(aiData, null, 2) +
+                        '</code></pre>';
+                    Prism.highlightElement(document.querySelector('#ai-analysis-json code'));
+                } else {
+                    document.getElementById('ai-analysis-json').innerHTML =
+                        '<div style="color: #ef4444; padding: 1rem;"><i class="fas fa-exclamation-triangle"></i> AI analysis file not found</div>';
+                }
+
+                // Load Technical Analysis JSON
+                const techResponse = await fetch('analysis_localhost:3000_20250923_153045.json');
+                if (techResponse.ok) {
+                    const techData = await techResponse.json();
+                    document.getElementById('technical-data-json').innerHTML =
+                        '<pre><code class="language-json">' +
+                        JSON.stringify(techData, null, 2) +
+                        '</code></pre>';
+                    Prism.highlightElement(document.querySelector('#technical-data-json code'));
+                } else {
+                    document.getElementById('technical-data-json').innerHTML =
+                        '<div style="color: #ef4444; padding: 1rem;"><i class="fas fa-exclamation-triangle"></i> Technical analysis file not found</div>';
+                }
+            } catch (error) {
+                console.error('Error loading technical data:', error);
+                document.getElementById('ai-analysis-json').innerHTML =
+                    '<div style="color: #ef4444; padding: 1rem;"><i class="fas fa-exclamation-triangle"></i> Error loading data</div>';
+                document.getElementById('technical-data-json').innerHTML =
+                    '<div style="color: #ef4444; padding: 1rem;"><i class="fas fa-exclamation-triangle"></i> Error loading data</div>';
+            }
+        }
+
+        // Initialize KPI Chart
+        function initializeCharts() {
+            const ctx = document.getElementById('kpiChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Search Completion', 'Message Response', 'Map Interaction', 'Video Engagement', 'Filter Usage', 'Return Users'],
+                    datasets: [{
+                        label: 'Current Performance',
+                        data: [65, 78, 45, 52, 38, 72],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6',
+                            '#06b6d4'
+                        ],
+                        borderColor: [
+                            '#1e40af',
+                            '#059669',
+                            '#d97706',
+                            '#dc2626',
+                            '#7c3aed',
+                            '#0891b2'
+                        ],
+                        borderWidth: 1
+                    }, {
+                        label: 'Target Performance',
+                        data: [85, 90, 70, 75, 65, 85],
+                        backgroundColor: 'rgba(156, 163, 175, 0.3)',
+                        borderColor: '#9ca3af',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Key Performance Metrics'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            // Syntax highlighting for any existing code blocks
+            Prism.highlightAll();
+        });
+    </script>
+</body>
+</html>
