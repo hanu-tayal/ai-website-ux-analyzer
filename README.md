@@ -41,7 +41,7 @@ An advanced AI-powered website analysis tool that provides comprehensive insight
 ### Setup
 ```bash
 # Clone the repository
-git clone https://github.com/hanuytayal/ai-website-analyzer.git
+git clone https://github.com/hanu-tayal/ai-website-analyzer.git
 cd ai-website-analyzer
 
 # Create and activate virtual environment
